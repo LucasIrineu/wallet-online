@@ -8,6 +8,7 @@ class Login extends React.Component {
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
+    this.handleInput = this.handleInput.bind(this);
   }
 
   state = {
@@ -24,12 +25,13 @@ class Login extends React.Component {
     });
   };
 
-  handleClick = () => {
-    const { email } = this.state;
+  handleClick = async (event) => {
+    event.preventDefault();
     // const { dispatch } = this.props;
+    const { email } = this.state;
     // dispatch(emailAction(email));
     const { logUser } = this.props;
-    logUser(email);
+    await logUser(email);
     this.setState({ submitted: true });
   };
 
@@ -59,22 +61,24 @@ class Login extends React.Component {
           <label htmlFor="input-name">
             Email:
             <input
+              type="email"
               data-testid="email-input"
               id="input-name"
-              type="email"
               name="email"
               onChange={ this.handleInput }
+              required
             />
           </label>
 
           <label htmlFor="password-input">
             Senha:
             <input
+              type="password"
               data-testid="password-input"
               id="input-password"
-              type="password"
               name="password"
               onChange={ this.handlePassword }
+              required
             />
           </label>
           <button
