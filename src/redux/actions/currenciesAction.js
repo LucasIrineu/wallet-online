@@ -17,7 +17,6 @@ const failedRequest = (error) => ({
 
 const fetchCurrenciesAction = () => async (dispatch) => {
   dispatch(requestCurrencies());
-
   try {
     const currencies = await fetchCurrencies();
     if (!currencies) throw new Error('Não foi possivel recuperar os dados da API');
