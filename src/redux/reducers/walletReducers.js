@@ -5,7 +5,7 @@ import { REQUEST_CURRENCIES, GET_CURRENCIES_LIST,
 const INITIAL_STATE = {
   currencies: [],
   expenses: [],
-  totalValue: '',
+  totalValue: '0',
   error: '',
 };
 

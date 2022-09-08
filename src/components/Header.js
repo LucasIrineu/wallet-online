@@ -8,7 +8,7 @@ class Header extends Component {
     return (
       <header>
         <h5 data-testid="email-field">
-          {userEmail}
+          { userEmail }
         </h5>
         <h5>
           Total das Despesas:
@@ -26,7 +26,11 @@ class Header extends Component {
 
 Header.propTypes = {
   userEmail: PropTypes.string.isRequired,
-  totalValue: PropTypes.string.isRequired,
+  totalValue: PropTypes.string,
+};
+
+Header.defaultProps = {
+  totalValue: '0',
 };
 
 const mapStateToProps = (state) => ({
