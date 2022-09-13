@@ -6,7 +6,7 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from '../../redux/reducers';
+import reducer from '../../redux/reducers';
 
 const renderWithRouterAndRedux = (
   component, // componente a ser renderizado
@@ -16,7 +16,7 @@ const renderWithRouterAndRedux = (
 
     // caso você passe uma store por parâmetro ela será utilizada
     // caso contrário vai chamar a função createStore e criar uma nova
-    store = createStore(rootReducer, initialState, applyMiddleware(thunk)),
+    store = createStore(reducer, initialState, applyMiddleware(thunk)),
 
     // rota inicial da nossa aplicação
     initialEntries = ['/'],

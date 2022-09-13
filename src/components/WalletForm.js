@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import fetchCurrenciesAction from '../redux/actions/currenciesAction';
 import totalValueAction from '../redux/actions/totalValueAction';
-import addExpenseAction from '../redux/actions/addExpenseAction';
+import updateExpensesAction from '../redux/actions/updateExpensesAction';
 import fetchCurrencies from '../services/api';
 
 class WalletForm extends Component {
@@ -13,7 +13,7 @@ class WalletForm extends Component {
     currency: 'USD',
     method: 'Dinheiro',
     tag: 'Comida',
-    expenses: [],
+    idCounter: 0,
   };
 
   componentDidMount() {
@@ -48,11 +48,12 @@ class WalletForm extends Component {
     event.preventDefault();
 
     const { value, description, currency,
-      method, tag, expenses } = this.state;
+      method, tag, idCounter } = this.state;
+    const { expenses } = this.props;
     const currenciesInfo = await fetchCurrencies();
 
     const expenseToAdd = {
-      id: expenses.length,
+      id: idCounter,
       value,
       description,
       currency,
@@ -68,12 +69,12 @@ class WalletForm extends Component {
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Comida',
-      expenses: newExpensesArray,
+      idCounter: idCounter + 1,
     });
 
     this.calcTotalValue(newExpensesArray);
-    const { addExpense } = this.props;
-    await addExpense(newExpensesArray);
+    const { updateExpenses } = this.props;
+    await updateExpenses(newExpensesArray);
   };
 
   render() {
@@ -191,9 +192,10 @@ class WalletForm extends Component {
 
 WalletForm.propTypes = {
   fetchCurrenciesRedux: PropTypes.func.isRequired,
-  addExpense: PropTypes.func.isRequired,
+  updateExpenses: PropTypes.func.isRequired,
   setTotalValue: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string),
+  expenses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
 
 WalletForm.defaultProps = {
@@ -202,11 +204,12 @@ WalletForm.defaultProps = {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchCurrenciesRedux: () => dispatch(fetchCurrenciesAction()),
-  addExpense: (array) => dispatch(addExpenseAction(array)),
+  updateExpenses: (array) => dispatch(updateExpensesAction(array)),
   setTotalValue: (value) => dispatch(totalValueAction(value)),
 });
 
